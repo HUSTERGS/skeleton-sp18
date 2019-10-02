@@ -6,7 +6,7 @@ public class ArrayDeque<T> {
     private int nextFirst;
     private int nextLast;
     private int isFirstEmpty; // 用于判断
-
+    
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
@@ -16,6 +16,9 @@ public class ArrayDeque<T> {
     }
 
     private void resize() {
+        if (items.length <= 8) {
+            return;
+        }
         T[] newArray = (T[]) new Object[items.length * 2];
         if (nextFirst < nextLast) {
             System.arraycopy(items, 0, newArray, 0, nextLast);
