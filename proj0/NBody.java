@@ -1,9 +1,8 @@
 import java.lang.reflect.Array;
 
-import sun.awt.image.ShortBandedRaster;
 
 /**
- * NBody
+ * NPlanet
  */
 
 public class NBody {
@@ -14,7 +13,7 @@ public class NBody {
         double currentTime = 0;
         String filename = args[2];
         double radius = readRadius(filename);
-        Body[] bodies = readBodies(filename);
+        Planet[] planets = readPlanets(filename);
         StdDraw.enableDoubleBuffering();
         StdDraw.setScale(-radius, radius);
         // StdDraw.clear();
@@ -23,21 +22,21 @@ public class NBody {
         
         while (currentTime < T) {
             currentTime += dt;
-            double[] xForces = new double[Array.getLength(bodies)];
-            double[] yForces = new double[Array.getLength(bodies)];
-            for (int count = 0; count < Array.getLength(bodies); ++count) {
-                xForces[count] = bodies[count].calcNetForceExertedByX(bodies);
-                yForces[count] = bodies[count].calcNetForceExertedByY(bodies);
+            double[] xForces = new double[Array.getLength(planets)];
+            double[] yForces = new double[Array.getLength(planets)];
+            for (int count = 0; count < Array.getLength(planets); ++count) {
+                xForces[count] = planets[count].calcNetForceExertedByX(planets);
+                yForces[count] = planets[count].calcNetForceExertedByY(planets);
 
             }
 
-            for (int count = 0; count < Array.getLength(bodies); ++count) {
-                bodies[count].update(dt, xForces[count], yForces[count]);
+            for (int count = 0; count < Array.getLength(planets); ++count) {
+                planets[count].update(dt, xForces[count], yForces[count]);
             }
             StdDraw.clear();
             StdDraw.picture(0, 0, "images/starfield.jpg");
-            for (Body body : bodies) {
-                body.draw();
+            for (Planet planet : planets) {
+                planet.draw();
             }
             StdDraw.show();
             StdDraw.pause(10);
@@ -47,20 +46,20 @@ public class NBody {
 
     public static double readRadius(String filename) {
         In in = new In(filename);
-        int bodyConut = in.readInt();
+        int planetConut = in.readInt();
         double radius = in.readDouble();
         return radius;
     }
 
-    public static Body[] readBodies(String filename) {
+    public static Planet[] readPlanets(String filename) {
         In in = new In(filename);
-        int bodyConut = in.readInt();
+        int planetConut = in.readInt();
         double radius = in.readDouble();
-        Body[] bodies = new Body[bodyConut];
-        for (int count = 0; count < bodyConut; ++count) {
-            bodies[count] = new Body(in.readDouble(), in.readDouble(), in.readDouble(), in.readDouble(),
+        Planet[] planets = new Planet[planetConut];
+        for (int count = 0; count < planetConut; ++count) {
+            planets[count] = new Planet(in.readDouble(), in.readDouble(), in.readDouble(), in.readDouble(),
                     in.readDouble(), in.readString());
         }
-        return bodies;
+        return planets;
     }
 }
