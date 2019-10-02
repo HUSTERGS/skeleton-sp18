@@ -1,12 +1,11 @@
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class ArrayDeque<T> {
-    T[] items;
-    int size;
-    int nextFirst;
-    int nextLast;
-    int isFirstEmpty; // 用于判断
+    private T[] items;
+    private int size;
+    private int nextFirst;
+    private int nextLast;
+    private int isFirstEmpty; // 用于判断
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
@@ -14,16 +13,7 @@ public class ArrayDeque<T> {
         nextLast = 0;
     }
 
-    public ArrayDeque(ArrayDeque other) {
-        T[] items = (T[]) new Object[other.items.length];
-        System.arraycopy(other.items, 0, items, 0, items.length);
-        nextFirst = other.nextFirst;
-        size = other.size;
-        nextLast = other.nextLast;
-        isFirstEmpty = other.isFirstEmpty;
-    }
-
-    public void resize() {
+    private void resize() {
         T[] newArray = (T[]) new Object[items.length * 2];
         if (nextFirst < nextLast) {
             System.arraycopy(items, 0, newArray, 0, nextLast);
@@ -43,7 +33,7 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if((nextLast - nextFirst + items.length) % items.length == 1 && size != 0) {
+        if ((nextLast - nextFirst + items.length) % items.length == 1 && size != 0) {
             // 说明装满了
             resize();
         }
@@ -54,7 +44,7 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        if((nextLast - nextFirst + items.length) % items.length == 1 && size != 0) {
+        if ((nextLast - nextFirst + items.length) % items.length == 1 && size != 0) {
             // 说明装满了
             resize();
         }
@@ -83,7 +73,7 @@ public class ArrayDeque<T> {
             size--;
             isFirstEmpty--;
             return items[nextFirst];
-        }else {
+        } else {
             return null;
         }
     }
