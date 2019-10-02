@@ -7,6 +7,34 @@ public class ArrayDeque<T> {
     private int nextLast;
     private int isFirstEmpty; // 用于判断
 
+    public static void main(String[] args) {
+        ArrayDeque<Integer> test = new ArrayDeque<>();
+        test.addFirst(0);
+        test.get(0);
+        test.get(0);
+        test.removeFirst();
+        test.addLast(4);
+        test.removeFirst();
+        test.addLast(6);
+        test.removeFirst();
+        test.addFirst(8);
+        test.addLast(9);
+        test.addFirst(10);
+        test.addLast(11);
+        test.get(1);
+        test.get(2);
+        test.addLast(14);
+        test.addLast(15);
+        test.addLast(16);
+        test.addLast(17);
+        test.addFirst(18);
+        test.addLast(19);
+        test.addLast(20);
+        test.removeLast();
+        test.removeLast();
+        System.out.print(test.removeLast());
+
+    }
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
@@ -26,7 +54,8 @@ public class ArrayDeque<T> {
             if (isFirstEmpty == 0) {
                 // 如果first 是空的
                 System.arraycopy(items, 0, newArray, 0, items.length);
-                nextLast += 1;
+                nextLast = items.length;
+                nextFirst = items.length * 2 - 1;
             } else {
                 System.arraycopy(items, 0, newArray, items.length, items.length);
                 nextFirst = items.length - 1;
