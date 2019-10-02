@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 
 
 /**
@@ -22,15 +21,15 @@ public class NBody {
         
         while (currentTime < T) {
             currentTime += dt;
-            double[] xForces = new double[Array.getLength(planets)];
-            double[] yForces = new double[Array.getLength(planets)];
-            for (int count = 0; count < Array.getLength(planets); ++count) {
+            double[] xForces = new double[planets.length];
+            double[] yForces = new double[planets.length];
+            for (int count = 0; count < planets.length; ++count) {
                 xForces[count] = planets[count].calcNetForceExertedByX(planets);
                 yForces[count] = planets[count].calcNetForceExertedByY(planets);
 
             }
 
-            for (int count = 0; count < Array.getLength(planets); ++count) {
+            for (int count = 0; count < planets.length; ++count) {
                 planets[count].update(dt, xForces[count], yForces[count]);
             }
             StdDraw.clear();
