@@ -19,6 +19,9 @@ public class ArrayDeque<T> {
         if (size == items.length) {
             newLength = items.length * 2;
         } else {
+            if (items.length <= 8) {
+                return ;
+            }
             newLength = items.length / 4;
         }
         T[] newArray = (T[]) new Object[newLength];
