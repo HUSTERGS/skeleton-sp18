@@ -17,7 +17,8 @@ public class ArrayDeque<T> {
         T[] newArray = (T[]) new Object[items.length * 2];
         if (nextFirst < nextLast) {
             System.arraycopy(items, 0, newArray, 0, nextLast);
-            System.arraycopy(items, nextLast, newArray, items.length + nextLast, items.length - nextFirst);
+            System.arraycopy(items, nextLast, newArray, items.length + nextLast,
+                    items.length - nextFirst);
             nextFirst = items.length + nextFirst;
         } else {
             if (isFirstEmpty == 0) {
@@ -32,8 +33,18 @@ public class ArrayDeque<T> {
         items = newArray;
     }
 
+    private void resizeDown() {
+        int newLength = items.length / 4;
+        T[] newArray = (T[]) new Object[newLength];
+        System.arraycopy(items, 0, newArray, 0, nextLast);
+        System.arraycopy(items, nextFirst + 1, newArray,
+                newLength + nextFirst - items.length + 1, items.length -nextFirst - 1);
+        nextFirst = newLength + nextFirst - items.length;
+        items = newArray;
+    }
+
     public void addFirst(T item) {
-        if ((nextLast - nextFirst + items.length) % items.length == 1 && size != 0) {
+        if (size == items.length) {
             // 说明装满了
             resize();
         }
@@ -44,7 +55,7 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        if ((nextLast - nextFirst + items.length) % items.length == 1 && size != 0) {
+        if (size == items.length) {
             // 说明装满了
             resize();
         }
@@ -72,6 +83,9 @@ public class ArrayDeque<T> {
             nextFirst = (nextFirst + 1) % items.length;
             size--;
             isFirstEmpty--;
+            if (items.length > size * 4) {
+                resizeDown();
+            }
             return items[nextFirst];
         } else {
             return null;
@@ -82,6 +96,9 @@ public class ArrayDeque<T> {
         if (size != 0) {
             nextLast = (nextLast - 1 + items.length) % items.length;
             size--;
+            if (items.length > size * 4) {
+                resizeDown();
+            }
             return items[nextLast];
         } else {
             return null;
@@ -89,17 +106,10 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        if (size == items.length) {
-            // 如果已经满了
+        if (index < size) {
             return items[(index + nextFirst + 1) % items.length];
         } else {
-            if (index <= nextLast && index >= nextFirst) {
-                return null;
-            } else {
-                return items[(index + nextFirst + 1) % items.length];
-            }
+            return null;
         }
     }
-
-
 }

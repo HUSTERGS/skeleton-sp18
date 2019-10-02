@@ -5,7 +5,8 @@ public class LinkedListDeque<T> {
     private int size;
     private LinkNode last;
 
-    public class LinkNode {
+
+    private class LinkNode {
         private T item;
         private LinkNode next;
         private LinkNode prev;
@@ -42,40 +43,30 @@ public class LinkedListDeque<T> {
         last = sentinel;
     }
 
-    public LinkedListDeque(T value) {
-        sentinel = new LinkNode(value, null, null);
-        sentinel.next = sentinel;
-        sentinel.prev = sentinel;
-        last = sentinel.next;
-        size = 1;
-    }
-
-//    public LinkedListDeque(LinkedListDeque other) {
-//        sentinel = new LinkNode();
-//        sentinel.next = sentinel;
-//        sentinel.prev = sentinel;
-//        last = sentinel.next;
-//        size = 1;
-//
-//        for (int i = 0; i < other.size; ++i) {
-//            addLast((T) other.get(i));
-//        }
-//    }
 
     public void addFirst(T item) {
         LinkNode p = new LinkNode(item, sentinel.next, sentinel);
+        p.next = sentinel.next;
         sentinel.next = p;
-        sentinel.next.prev = p;
-        last = sentinel.next;
-        sentinel.prev = last;
+        p.prev = sentinel;
+        p.next.prev = p;
+        if (isEmpty()) {
+            last = p;
+            sentinel.prev = last;
+        }
         ++size;
     }
 
     public void addLast(T item) {
         LinkNode p = new LinkNode(item, sentinel, last);
         last.next = p;
+        p.prev = last;
+        p.next = sentinel;
         sentinel.prev = p;
         last = p;
+        if (isEmpty()) {
+            sentinel.next = p;
+        }
         ++size;
     }
 
@@ -129,7 +120,7 @@ public class LinkedListDeque<T> {
     public T get(int index) {
         if (index >= size || index < 0) {
             return null;
-        }else {
+        } else {
             LinkNode p = sentinel;
             while (index > 0) {
                 p = p.next;
