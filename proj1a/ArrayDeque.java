@@ -7,7 +7,6 @@ public class ArrayDeque<T> {
     private int nextLast;
     private int isFirstEmpty; // 用于判断
 
-
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
@@ -16,38 +15,21 @@ public class ArrayDeque<T> {
     }
 
     private void resize() {
-        T[] newArray = (T[]) new Object[items.length * 2];
-        if (nextFirst < nextLast) {
-            System.arraycopy(items, 0, newArray, 0, nextLast);
-            System.arraycopy(items, nextLast, newArray, items.length + nextLast,
-                    items.length - nextFirst - 1);
-            nextFirst = items.length + nextFirst;
+        int newLength = 0;
+        if (size == items.length) {
+            newLength = items.length * 2;
         } else {
-            if (isFirstEmpty == 0) {
-                // 如果first 是空的
-                System.arraycopy(items, 0, newArray, 0, items.length);
-                nextLast = items.length;
-                nextFirst = items.length * 2 - 1;
-            } else {
-                System.arraycopy(items, 0, newArray, items.length, items.length);
-                nextFirst = items.length - 1;
-            }
+            newLength = items.length / 4;
         }
+        T[] newArray = (T[]) new Object[newLength];
+        for (int i = 0; i < size; i++) {
+            newArray[i] = get(i);
+        }
+        nextLast = size;
+        nextFirst = newLength - 1;
         items = newArray;
     }
 
-    private void resizeDown() {
-        if (items.length <= 8) {
-            return;
-        }
-        int newLength = items.length / 4;
-        T[] newArray = (T[]) new Object[newLength];
-        System.arraycopy(items, 0, newArray, 0, nextLast);
-        System.arraycopy(items, nextFirst + 1, newArray,
-                newLength + nextFirst - items.length + 1, items.length - nextFirst - 1);
-        nextFirst = newLength + nextFirst - items.length;
-        items = newArray;
-    }
 
     public void addFirst(T item) {
         if (size == items.length) {
@@ -91,7 +73,7 @@ public class ArrayDeque<T> {
             size--;
             isFirstEmpty--;
             if (items.length > size * 4) {
-                resizeDown();
+                resize();
             }
             return p;
         } else {
@@ -105,7 +87,7 @@ public class ArrayDeque<T> {
             T p = items[nextLast];
             size--;
             if (items.length > size * 4) {
-                resizeDown();
+                resize();
             }
             return p;
         } else {
