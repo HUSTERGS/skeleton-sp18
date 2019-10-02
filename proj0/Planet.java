@@ -9,7 +9,7 @@ public class Planet {
     public double mass; // mass
     public String imgFileName;  // The name of the file that corresponds to the image that depicts the planet
     
-    public static final double G = 6.67e-11; 
+    private static final double G = 6.67e-11; 
 
     public Planet(double xP, double yP, double xV, double yV, double m, String img) {
         xxPos = xP;

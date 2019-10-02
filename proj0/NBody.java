@@ -1,5 +1,4 @@
 
-
 /**
  * NPlanet
  */
@@ -18,7 +17,6 @@ public class NBody {
         // StdDraw.clear();
         // StdDraw.picture(0, 0, "images/starfield.jpg");
 
-        
         while (currentTime < T) {
             currentTime += dt;
             double[] xForces = new double[planets.length];
@@ -40,7 +38,12 @@ public class NBody {
             StdDraw.show();
             StdDraw.pause(10);
         }
-        
+        StdOut.printf("%d\n", planets.length);
+        StdOut.printf("%.2e\n", radius);
+        for (int i = 0; i < planets.length; i++) {
+            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n", planets[i].xxPos, planets[i].yyPos,
+                    planets[i].xxVel, planets[i].yyVel, planets[i].mass, planets[i].imgFileName);
+        }
     }
 
     public static double readRadius(String filename) {
