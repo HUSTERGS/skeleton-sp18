@@ -6,7 +6,7 @@ public class ArrayDeque<T> {
     private int nextFirst;
     private int nextLast;
     private int isFirstEmpty; // 用于判断
-    
+
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
@@ -16,9 +16,6 @@ public class ArrayDeque<T> {
     }
 
     private void resize() {
-        if (items.length <= 8) {
-            return;
-        }
         T[] newArray = (T[]) new Object[items.length * 2];
         if (nextFirst < nextLast) {
             System.arraycopy(items, 0, newArray, 0, nextLast);
@@ -29,16 +26,19 @@ public class ArrayDeque<T> {
             if (isFirstEmpty == 0) {
                 // 如果first 是空的
                 System.arraycopy(items, 0, newArray, 0, items.length);
-                nextLast += items.length;
+                nextLast += 1;
             } else {
                 System.arraycopy(items, 0, newArray, items.length, items.length);
-                nextFirst = items.length;
+                nextFirst = items.length - 1;
             }
         }
         items = newArray;
     }
 
     private void resizeDown() {
+        if (items.length <= 8) {
+            return;
+        }
         int newLength = items.length / 4;
         T[] newArray = (T[]) new Object[newLength];
         System.arraycopy(items, 0, newArray, 0, nextLast);
