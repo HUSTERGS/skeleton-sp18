@@ -20,7 +20,7 @@ public class ArrayDeque<T> {
             newLength = items.length * 2;
         } else {
             if (items.length <= 8) {
-                return ;
+                return;
             }
             newLength = items.length / 4;
         }
