@@ -1,4 +1,3 @@
-import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -13,6 +12,8 @@ public class TestOffByOne {
     public void testOffByOne() {
         assertTrue(offByOne.equalChars('x', 'y'));
         assertTrue(offByOne.equalChars('x', 'w'));
+        assertTrue(offByOne.equalChars('&', '%'));
+        assertFalse(offByOne.equalChars('a', 'B'));
         assertFalse(offByOne.equalChars('a', 'c'));
     }
 }
